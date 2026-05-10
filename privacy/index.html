@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <title>Privacy Policy — PeerX</title>
+    <meta name="description" content="Privacy Policy for PeerX — campus pass app for 21 School peers.">
+    <meta name="theme-color" content="#000000">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+
+    <meta property="og:title" content="PeerX — Privacy Policy">
+    <meta property="og:description" content="What data PeerX handles and how. No analytics. No third parties.">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://peerx.org/privacy/">
+    <meta property="og:image" content="https://peerx.org/logo-1024.png">
+    <meta name="twitter:card" content="summary_large_image">
+
+    <link rel="icon" type="image/png" href="/logo-1024.png">
+    <link rel="apple-touch-icon" href="/logo-1024.png">
+
+    <script>
+        (function () {
+            document.documentElement.classList.add('js');
+            try {
+                var param = new URLSearchParams(location.search).get('lang');
+                var stored = localStorage.getItem('peerx-lang');
+                var nav = (navigator.language || 'en').toLowerCase();
+                var detected = param || stored || (nav.startsWith('ru') ? 'ru' : 'en');
+                if (detected !== 'en' && detected !== 'ru') detected = 'en';
+                document.documentElement.lang = detected;
+            } catch (e) {
+                document.documentElement.lang = 'en';
+            }
+        })();
+    </script>
+
+    <link rel="stylesheet" href="/assets/peerx.css">
+</head>
+<body>
+    <div class="ambient" aria-hidden="true">
+        <div class="glow glow-1"></div>
+        <div class="glow glow-2"></div>
+        <div class="glow glow-3"></div>
+    </div>
+
+    <div class="page">
+        <header class="top">
+            <a class="brand-link" href="/" aria-label="PeerX">
+                <img src="/assets/logo.svg" alt="" aria-hidden="true">
+                <span>PeerX</span>
+            </a>
+            <div class="lang-switch" role="group" aria-label="Language">
+                <button class="lang-pill" data-set-lang="en" aria-pressed="true">EN</button>
+                <button class="lang-pill" data-set-lang="ru" aria-pressed="false">RU</button>
+            </div>
+        </header>
+
+        <main class="doc">
+            <section class="doc-hero reveal">
+                <div class="doc-hero-icon" aria-hidden="true">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+                        <polyline points="9 12 11 14 15 10"/>
+                    </svg>
+                </div>
+                <p class="eyebrow">
+                    <span data-l="en">Privacy</span>
+                    <span data-l="ru">Конфиденциальность</span>
+                </p>
+                <h1>
+                    <span data-l="en">Privacy Policy</span>
+                    <span data-l="ru">Политика конфиденциальности</span>
+                </h1>
+                <p class="doc-meta">
+                    <span data-l="en">Last updated: May 8, 2026</span>
+                    <span data-l="ru">Последнее обновление: 8 мая 2026</span>
+                </p>
+                <p class="doc-lead">
+                    <span data-l="en">PeerX is a third-party companion app for students of 21 School. This page explains exactly what data the app handles and how.</span>
+                    <span data-l="ru">PeerX — неофициальное приложение-спутник для пиров Школы 21. Эта страница объясняет, какие именно данные обрабатывает приложение и как.</span>
+                </p>
+            </section>
+
+            <section class="doc-section reveal" id="who-we-are">
+                <h2>
+                    <span data-l="en">Who we are</span>
+                    <span data-l="ru">Кто мы</span>
+                </h2>
+                <p>
+                    <span data-l="en">PeerX is published by an individual developer ("we", "us"). For privacy questions, contact <a href="mailto:hi@peerx.org">hi@peerx.org</a>.</span>
+                    <span data-l="ru">PeerX публикуется индивидуальным разработчиком («мы»). По вопросам приватности — <a href="mailto:hi@peerx.org">hi@peerx.org</a>.</span>
+                </p>
+            </section>
+
+            <section class="doc-section reveal" id="data">
+                <h2>
+                    <span data-l="en">Data we handle</span>
+                    <span data-l="ru">Какие данные обрабатываются</span>
+                </h2>
+                <p>
+                    <span data-l="en">To generate your campus QR pass, the app handles the following:</span>
+                    <span data-l="ru">Чтобы сгенерировать ваш QR-пропуск, приложение обрабатывает:</span>
+                </p>
+                <ul>
+                    <li>
+                        <span data-l="en"><strong>Email and password</strong> — your existing 21 School Applicant credentials. You enter them at sign-in.</span>
+                        <span data-l="ru"><strong>Email и пароль</strong> — ваши учётные данные от Applicant Школы 21. Вы вводите их при входе.</span>
+                    </li>
+                    <li>
+                        <span data-l="en"><strong>Authentication token (JWT)</strong> — issued by the official 21 School Applicant backend after sign-in.</span>
+                        <span data-l="ru"><strong>Токен аутентификации (JWT)</strong> — выдаётся официальным сервером Applicant Школы 21 после входа.</span>
+                    </li>
+                    <li>
+                        <span data-l="en"><strong>QR access token</strong> — issued by 21 School and shown as a QR code in the app and the Apple Wallet pass.</span>
+                        <span data-l="ru"><strong>QR-токен доступа</strong> — выдаётся Школой 21 и отображается в виде QR-кода в приложении и в пропуске Apple Wallet.</span>
+                    </li>
+                </ul>
+            </section>
+
+            <section class="doc-section reveal" id="storage">
+                <h2>
+                    <span data-l="en">Where the data is stored</span>
+                    <span data-l="ru">Где данные хранятся</span>
+                </h2>
+                <ul>
+                    <li>
+                        <span data-l="en">Your email and password are stored exclusively in your device's <strong>Keychain</strong>.</span>
+                        <span data-l="ru">Email и пароль хранятся исключительно в <strong>Keychain</strong> вашего устройства.</span>
+                    </li>
+                    <li>
+                        <span data-l="en">The JWT and QR token live in memory and (where applicable) inside the Apple Wallet pass on your device.</span>
+                        <span data-l="ru">JWT и QR-токен живут в оперативной памяти и (где применимо) внутри пропуска Apple Wallet на вашем устройстве.</span>
+                    </li>
+                    <li>
+                        <span data-l="en">We operate <strong>no servers of our own</strong>. Nothing about you is stored on our infrastructure.</span>
+                        <span data-l="ru">У нас <strong>нет собственных серверов</strong>. Ничего о вас не хранится на нашей инфраструктуре.</span>
+                    </li>
+                </ul>
+            </section>
+
+            <section class="doc-section reveal" id="transmission">
+                <h2>
+                    <span data-l="en">Where the data is sent</span>
+                    <span data-l="ru">Куда данные отправляются</span>
+                </h2>
+                <p>
+                    <span data-l="en">Your credentials and tokens are transmitted only to the official 21 School Applicant backend at <code>applicant.21-school.ru</code>, over HTTPS, for the sole purpose of authentication and QR token issuance. 21 School operates that service under its own privacy policy.</span>
+                    <span data-l="ru">Учётные данные и токены передаются только на официальный сервер Applicant Школы 21 по адресу <code>applicant.21-school.ru</code>, по HTTPS, исключительно для аутентификации и выдачи QR-токена. Школа 21 управляет этим сервисом по собственной политике конфиденциальности.</span>
+                </p>
+                <p>
+                    <span data-l="en">The Apple Wallet pass is built locally on your device and signed using a certificate we obtained from Apple. The pass file may be transferred via the standard iOS sharing mechanism if you choose to share it.</span>
+                    <span data-l="ru">Пропуск Apple Wallet собирается локально на вашем устройстве и подписывается сертификатом, полученным нами у Apple. Файл пропуска может быть передан через стандартный iOS-механизм «Поделиться», если вы сами это инициируете.</span>
+                </p>
+            </section>
+
+            <section class="doc-section reveal" id="third-parties">
+                <h2>
+                    <span data-l="en">Third parties and tracking</span>
+                    <span data-l="ru">Третьи стороны и трекинг</span>
+                </h2>
+
+                <div class="callout">
+                    <div class="callout-icon" aria-hidden="true">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                            <circle cx="12" cy="12" r="10"/>
+                            <line x1="4.93" y1="4.93" x2="19.07" y2="19.07"/>
+                        </svg>
+                    </div>
+                    <p>
+                        <span data-l="en"><strong>Zero analytics. Zero tracking. Zero third-party SDKs.</strong></span>
+                        <span data-l="ru"><strong>Никакой аналитики. Никакого трекинга. Никаких сторонних SDK.</strong></span>
+                    </p>
+                </div>
+
+                <ul>
+                    <li>
+                        <span data-l="en">No analytics SDKs (Firebase, Mixpanel, Amplitude, etc.).</span>
+                        <span data-l="ru">Нет аналитических SDK (Firebase, Mixpanel, Amplitude и др.).</span>
+                    </li>
+                    <li>
+                        <span data-l="en">No advertising SDKs.</span>
+                        <span data-l="ru">Нет рекламных SDK.</span>
+                    </li>
+                    <li>
+                        <span data-l="en">No third-party trackers.</span>
+                        <span data-l="ru">Нет сторонних трекеров.</span>
+                    </li>
+                    <li>
+                        <span data-l="en">No data is shared with any party other than 21 School (only as described above).</span>
+                        <span data-l="ru">Никакие данные не передаются ни одной третьей стороне, кроме Школы 21 (только как описано выше).</span>
+                    </li>
+                </ul>
+            </section>
+
+            <section class="doc-section reveal" id="rights">
+                <h2>
+                    <span data-l="en">Your rights</span>
+                    <span data-l="ru">Ваши права</span>
+                </h2>
+                <ul>
+                    <li>
+                        <span data-l="en"><strong>Access</strong> — your credentials are visible to you in the app's sign-in screen until you choose to autofill them.</span>
+                        <span data-l="ru"><strong>Доступ</strong> — ваши учётные данные доступны вам в экране входа приложения, пока вы их не автозаполните.</span>
+                    </li>
+                    <li>
+                        <span data-l="en"><strong>Deletion</strong> — tap "Sign Out" in the app. The credentials and tokens are removed from your device's Keychain immediately. To delete the Apple Wallet pass, swipe it off in the Wallet app.</span>
+                        <span data-l="ru"><strong>Удаление</strong> — нажмите «Выйти» в приложении. Учётные данные и токены немедленно удаляются из Keychain устройства. Чтобы удалить пропуск Apple Wallet — смахните его в приложении Wallet.</span>
+                    </li>
+                    <li>
+                        <span data-l="en"><strong>Data on the 21 School Applicant backend</strong> — to delete data held by 21 School itself, contact 21 School directly.</span>
+                        <span data-l="ru"><strong>Данные на сервере Applicant Школы 21</strong> — для удаления данных, хранящихся у Школы 21, обращайтесь напрямую в Школу 21.</span>
+                    </li>
+                </ul>
+            </section>
+
+            <section class="doc-section reveal" id="children">
+                <h2>
+                    <span data-l="en">Children</span>
+                    <span data-l="ru">Дети</span>
+                </h2>
+                <p>
+                    <span data-l="en">PeerX is intended for adult students of 21 School and is not directed at children under 13.</span>
+                    <span data-l="ru">PeerX предназначено для совершеннолетних пиров Школы 21 и не адресовано детям младше 13 лет.</span>
+                </p>
+            </section>
+
+            <section class="doc-section reveal" id="changes">
+                <h2>
+                    <span data-l="en">Changes to this policy</span>
+                    <span data-l="ru">Изменения политики</span>
+                </h2>
+                <p>
+                    <span data-l="en">We may update this Privacy Policy from time to time. Material changes will be reflected in the "Last updated" date above and announced on <a href="https://peerx.org/">peerx.org</a>.</span>
+                    <span data-l="ru">Мы можем периодически обновлять эту политику. Существенные изменения отражаются в дате «Последнее обновление» выше и анонсируются на <a href="https://peerx.org/">peerx.org</a>.</span>
+                </p>
+            </section>
+
+            <section class="doc-section reveal" id="contact">
+                <h2>
+                    <span data-l="en">Contact</span>
+                    <span data-l="ru">Контакт</span>
+                </h2>
+                <p>
+                    <a href="mailto:hi@peerx.org">hi@peerx.org</a>
+                </p>
+            </section>
+        </main>
+
+        <footer class="bottom">
+            <div class="links">
+                <a href="/">
+                    <span data-l="en">Home</span>
+                    <span data-l="ru">Главная</span>
+                </a>
+                <a href="/support/">
+                    <span data-l="en">Support</span>
+                    <span data-l="ru">Поддержка</span>
+                </a>
+                <a href="/clip/">App Clip</a>
+                <a href="https://github.com/PeerXOrg" target="_blank" rel="noopener">
+                    <span data-l="en">Source</span>
+                    <span data-l="ru">Исходный код</span>
+                </a>
+            </div>
+            <div class="small">
+                <span data-l="en">© 2026 PeerX · Built for peers · Not affiliated with 21 School</span>
+                <span data-l="ru">© 2026 PeerX · Сделано для пиров · Не аффилирован со Школой 21</span>
+            </div>
+        </footer>
+    </div>
+
+    <script src="/assets/peerx.js"></script>
+</body>
+</html>

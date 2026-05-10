@@ -1,0 +1,26 @@
+{
+  "applinks": {
+    "details": [
+      {
+        "appIDs": ["MYKD6MLV98.me.nickaroot.peerx"],
+        "components": [
+          {
+            "/": "/wallet-refresh",
+            "comment": "Pass icon deeplink — opens parent app and triggers silentRefresh()"
+          },
+          {
+            "/": "/clip/*",
+            "comment": "Clip invocation routes — fallback to parent if installed"
+          },
+          {
+            "/": "/refresh",
+            "comment": "Generic refresh deeplink"
+          }
+        ]
+      }
+    ]
+  },
+  "appclips": {
+    "apps": ["MYKD6MLV98.me.nickaroot.peerx.Clip"]
+  }
+}

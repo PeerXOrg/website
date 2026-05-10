@@ -1,0 +1,343 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <title>Support — PeerX</title>
+    <meta name="description" content="Help and contact for PeerX — campus pass app for 21 School peers.">
+    <meta name="theme-color" content="#000000">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+
+    <meta property="og:title" content="PeerX — Support">
+    <meta property="og:description" content="Help and contact for PeerX — campus pass app for 21 School peers.">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://peerx.org/support/">
+    <meta property="og:image" content="https://peerx.org/logo-1024.png">
+    <meta name="twitter:card" content="summary_large_image">
+
+    <link rel="icon" type="image/png" href="/logo-1024.png">
+    <link rel="apple-touch-icon" href="/logo-1024.png">
+
+    <script>
+        (function () {
+            document.documentElement.classList.add('js');
+            try {
+                var param = new URLSearchParams(location.search).get('lang');
+                var stored = localStorage.getItem('peerx-lang');
+                var nav = (navigator.language || 'en').toLowerCase();
+                var detected = param || stored || (nav.startsWith('ru') ? 'ru' : 'en');
+                if (detected !== 'en' && detected !== 'ru') detected = 'en';
+                document.documentElement.lang = detected;
+            } catch (e) {
+                document.documentElement.lang = 'en';
+            }
+        })();
+    </script>
+
+    <link rel="stylesheet" href="/assets/peerx.css">
+
+    <style>
+        /* Page-specific: FAQ stack + contact CTA */
+        .faq-list {
+            display: grid;
+            gap: 12px;
+        }
+        .faq h3 {
+            font-size: 16px;
+            font-weight: 600;
+            color: #fff;
+            margin: 0 0 8px;
+        }
+        .faq p {
+            font-size: 14px;
+            color: var(--fg-soft);
+            line-height: 1.6;
+            margin: 0 0 8px;
+        }
+        .faq p:last-child { margin-bottom: 0; }
+        .faq ul {
+            font-size: 14px;
+            color: var(--fg-soft);
+            line-height: 1.6;
+            padding-left: 22px;
+            margin: 6px 0 8px;
+        }
+        .faq li::marker { color: var(--fg-muted); }
+        .faq a {
+            color: #fff;
+            text-decoration: underline;
+            text-decoration-color: rgba(255, 255, 255, 0.3);
+            text-underline-offset: 3px;
+            transition: text-decoration-color 0.2s var(--ease);
+        }
+        .faq a:hover { text-decoration-color: rgba(255, 255, 255, 0.7); }
+
+        .doc a.contact-cta {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            margin-top: 14px;
+            padding: 14px 22px;
+            background: #fff;
+            color: #000;
+            border-radius: 14px;
+            font-weight: 600;
+            font-size: 15px;
+            text-decoration: none;
+            box-shadow: 0 1px 0 rgba(255, 255, 255, 0.4) inset, 0 8px 24px rgba(255, 255, 255, 0.1);
+            transition: box-shadow 0.25s var(--ease), transform 0.15s var(--ease);
+        }
+        .doc a.contact-cta:hover { box-shadow: 0 1px 0 rgba(255, 255, 255, 0.4) inset, 0 12px 32px rgba(255, 255, 255, 0.16); text-decoration: none; }
+        .doc a.contact-cta:active { transform: scale(0.98); }
+        .doc a.contact-cta svg { width: 18px; height: 18px; }
+        .contact-note {
+            font-size: 13px;
+            color: var(--fg-muted);
+            margin-top: 16px;
+            line-height: 1.55;
+        }
+    </style>
+</head>
+<body>
+    <div class="ambient" aria-hidden="true">
+        <div class="glow glow-1"></div>
+        <div class="glow glow-2"></div>
+        <div class="glow glow-3"></div>
+    </div>
+
+    <div class="page">
+        <header class="top">
+            <a class="brand-link" href="/" aria-label="PeerX">
+                <img src="/assets/logo.svg" alt="" aria-hidden="true">
+                <span>PeerX</span>
+            </a>
+            <div class="lang-switch" role="group" aria-label="Language">
+                <button class="lang-pill" data-set-lang="en" aria-pressed="true">EN</button>
+                <button class="lang-pill" data-set-lang="ru" aria-pressed="false">RU</button>
+            </div>
+        </header>
+
+        <main class="doc">
+            <section class="doc-hero reveal">
+                <div class="doc-hero-icon" aria-hidden="true">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="10"/>
+                        <circle cx="12" cy="12" r="4"/>
+                        <line x1="4.93" y1="4.93" x2="9.17" y2="9.17"/>
+                        <line x1="14.83" y1="14.83" x2="19.07" y2="19.07"/>
+                        <line x1="14.83" y1="9.17" x2="19.07" y2="4.93"/>
+                        <line x1="4.93" y1="19.07" x2="9.17" y2="14.83"/>
+                    </svg>
+                </div>
+                <p class="eyebrow">
+                    <span data-l="en">Support</span>
+                    <span data-l="ru">Поддержка</span>
+                </p>
+                <h1>
+                    <span data-l="en">Help &amp; contact</span>
+                    <span data-l="ru">Помощь и контакты</span>
+                </h1>
+                <p class="doc-lead">
+                    <span data-l="en">PeerX is a Wallet pass companion for students of 21 School. If something doesn't work as expected, this page should help.</span>
+                    <span data-l="ru">PeerX — приложение-спутник для пропуска Apple Wallet, для пиров Школы 21. Если что-то идёт не так — скорее всего, эта страница поможет.</span>
+                </p>
+            </section>
+
+            <section class="doc-section reveal" id="how">
+                <p class="eyebrow">
+                    <span data-l="en">How it works</span>
+                    <span data-l="ru">Как это работает</span>
+                </p>
+
+                <div class="how-card">
+                    <div class="how-step">
+                        <span class="step-num">1</span>
+                        <span class="step-text">
+                            <span data-l="en">Open PeerX and sign in with your existing 21 School Applicant (the same email and password you use on <a href="https://applicant.21-school.ru/" target="_blank" rel="noopener">applicant.21-school.ru</a>).</span>
+                            <span data-l="ru">Откройте PeerX и войдите своим Applicant Школы 21 (тот же email и пароль, что и на <a href="https://applicant.21-school.ru/" target="_blank" rel="noopener">applicant.21-school.ru</a>).</span>
+                        </span>
+                    </div>
+                    <div class="how-step">
+                        <span class="step-num">2</span>
+                        <span class="step-text">
+                            <span data-l="en">Tap <strong>Add to Apple Wallet</strong> to install the pass.</span>
+                            <span data-l="ru">Нажмите <strong>Добавить в Apple Wallet</strong>, чтобы установить пропуск.</span>
+                        </span>
+                    </div>
+                    <div class="how-step">
+                        <span class="step-num">3</span>
+                        <span class="step-text">
+                            <span data-l="en">Show the QR (in the app or in Wallet) at the campus entrance. PeerX renews the pass automatically before it expires.</span>
+                            <span data-l="ru">Показывайте QR (в приложении или в Wallet) на входе в кампус. PeerX продлевает пропуск автоматически до истечения срока.</span>
+                        </span>
+                    </div>
+                </div>
+            </section>
+
+            <section class="doc-section reveal" id="faq">
+                <p class="eyebrow">
+                    <span data-l="en">Common questions</span>
+                    <span data-l="ru">Частые вопросы</span>
+                </p>
+
+                <div class="faq-list">
+                    <div class="feature faq">
+                        <h3>
+                            <span data-l="en">Sign-in fails with "Incorrect email or password"</span>
+                            <span data-l="ru">Вход не проходит — «Неверный email или пароль»</span>
+                        </h3>
+                        <p>
+                            <span data-l="en">Verify your credentials by signing in to <a href="https://applicant.21-school.ru/" target="_blank" rel="noopener">applicant.21-school.ru</a> in Safari first. If that works but PeerX still rejects them, contact us.</span>
+                            <span data-l="ru">Сначала проверьте учётные данные на <a href="https://applicant.21-school.ru/" target="_blank" rel="noopener">applicant.21-school.ru</a> в Safari. Если там всё работает, а в PeerX — нет, напишите нам.</span>
+                        </p>
+                    </div>
+
+                    <div class="feature faq">
+                        <h3>
+                            <span data-l="en">"Wallet isn't available on this device"</span>
+                            <span data-l="ru">«Wallet недоступен на этом устройстве»</span>
+                        </h3>
+                        <p>
+                            <span data-l="en">Apple Wallet is required. Make sure it's installed on your iPhone and that you're not on iPad or Mac (PeerX is iPhone-only at this time).</span>
+                            <span data-l="ru">Нужен Apple Wallet. Убедитесь, что он установлен на iPhone, и что вы не на iPad или Mac (PeerX пока только для iPhone).</span>
+                        </p>
+                    </div>
+
+                    <div class="feature faq">
+                        <h3>
+                            <span data-l="en">Pass doesn't appear on the Lock Screen at the campus</span>
+                            <span data-l="ru">Пропуск не появляется на экране блокировки в кампусе</span>
+                        </h3>
+                        <p>
+                            <span data-l="en">iOS surfaces the pass when your iPhone is within ~250 m of the campus. Check:</span>
+                            <span data-l="ru">iOS показывает пропуск, когда iPhone в радиусе ~250 м от кампуса. Проверьте:</span>
+                        </p>
+                        <ul>
+                            <li>
+                                <span data-l="en">Settings → Wallet → <strong>Suggestions on Lock Screen</strong> is on</span>
+                                <span data-l="ru">Настройки → Wallet → <strong>Подсказки на экране блокировки</strong> включены</span>
+                            </li>
+                            <li>
+                                <span data-l="en">Settings → Privacy &amp; Security → Location Services → <strong>Wallet</strong> is set to "While Using"</span>
+                                <span data-l="ru">Настройки → Конфиденциальность и безопасность → Службы геолокации → <strong>Wallet</strong> — «При использовании»</span>
+                            </li>
+                            <li>
+                                <span data-l="en">Significant Locations is enabled</span>
+                                <span data-l="ru">Включены «Важные геопозиции»</span>
+                            </li>
+                        </ul>
+                        <p>
+                            <span data-l="en">If it still doesn't appear, remove the pass and add it again — iOS rebuilds its location index.</span>
+                            <span data-l="ru">Если всё равно не появляется — удалите пропуск и добавьте заново, iOS перестроит индекс геолокаций.</span>
+                        </p>
+                    </div>
+
+                    <div class="feature faq">
+                        <h3>
+                            <span data-l="en">"Wallet couldn't accept the pass"</span>
+                            <span data-l="ru">«Wallet не принял пропуск»</span>
+                        </h3>
+                        <p>
+                            <span data-l="en">This usually means the pass with the same identifier is already in your Wallet. Open Wallet, find your existing PeerX pass, and either keep using it or remove it and try Add to Apple Wallet again.</span>
+                            <span data-l="ru">Обычно это значит, что пропуск с тем же идентификатором уже есть в Wallet. Откройте Wallet, найдите существующий пропуск PeerX и либо продолжайте им пользоваться, либо нажмите «Добавить в Apple Wallet» снова после его удаления.</span>
+                        </p>
+                    </div>
+
+                    <div class="feature faq">
+                        <h3>
+                            <span data-l="en">Lockdown Mode is on — what should I expect?</span>
+                            <span data-l="ru">Включён Режим блокировки — что ожидать?</span>
+                        </h3>
+                        <p>
+                            <span data-l="en">PeerX is designed to keep working in Lockdown Mode. The pass is added directly via the Wallet system service, not via a web view, so it shouldn't blank out.</span>
+                            <span data-l="ru">PeerX рассчитан на работу в Режиме блокировки. Пропуск добавляется напрямую через системный сервис Wallet, а не через веб-вью, поэтому белого экрана быть не должно.</span>
+                        </p>
+                    </div>
+
+                    <div class="feature faq">
+                        <h3>
+                            <span data-l="en">App Clip Card doesn't appear</span>
+                            <span data-l="ru">Карточка App Clip не появляется</span>
+                        </h3>
+                        <p>
+                            <span data-l="en">Make sure your iPhone is unlocked and has internet. App Clip Cards are surfaced by iOS only on iPhone (not iPad) and only for links matching <code>peerx.org/clip/...</code>. If the card doesn't appear, open <a href="https://peerx.org/clip/">peerx.org/clip</a> directly in Safari — the full Clip will load.</span>
+                            <span data-l="ru">Убедитесь, что iPhone разблокирован и есть интернет. Карточка App Clip показывается iOS только на iPhone (не iPad) и только для ссылок вида <code>peerx.org/clip/...</code>. Если карточка не появляется — откройте <a href="https://peerx.org/clip/">peerx.org/clip</a> прямо в Safari, Clip откроется полностью.</span>
+                        </p>
+                    </div>
+
+                    <div class="feature faq">
+                        <h3>
+                            <span data-l="en">I want to delete my data</span>
+                            <span data-l="ru">Хочу удалить свои данные</span>
+                        </h3>
+                        <p>
+                            <span data-l="en">Tap <strong>Sign Out</strong> in the app — credentials and tokens are removed from Keychain. Swipe to remove the pass from Wallet. PeerX has no servers, so there's nothing else for us to delete. To delete data on 21 School's side, contact 21 School directly.</span>
+                            <span data-l="ru">Нажмите <strong>Выйти</strong> в приложении — учётные данные и токены удаляются из Keychain. Смахните пропуск из Wallet. У PeerX нет серверов, удалять больше нечего на нашей стороне. Для удаления данных на стороне Школы 21 — обращайтесь напрямую в Школу 21.</span>
+                        </p>
+                    </div>
+                </div>
+            </section>
+
+            <section class="doc-section reveal" id="contact">
+                <p class="eyebrow">
+                    <span data-l="en">Contact</span>
+                    <span data-l="ru">Контакт</span>
+                </p>
+                <h2>
+                    <span data-l="en">Email is the fastest way</span>
+                    <span data-l="ru">Быстрее всего — почтой</span>
+                </h2>
+                <p>
+                    <span data-l="en">
+                        <a class="contact-cta" href="mailto:hi@peerx.org?subject=PeerX%20Support">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <rect x="3" y="5" width="18" height="14" rx="2"/>
+                                <polyline points="3 7 12 13 21 7"/>
+                            </svg>
+                            hi@peerx.org
+                        </a>
+                    </span>
+                    <span data-l="ru">
+                        <a class="contact-cta" href="mailto:hi@peerx.org?subject=PeerX%20-%20Vopros">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <rect x="3" y="5" width="18" height="14" rx="2"/>
+                                <polyline points="3 7 12 13 21 7"/>
+                            </svg>
+                            hi@peerx.org
+                        </a>
+                    </span>
+                </p>
+                <p class="contact-note">
+                    <span data-l="en">When reporting an issue, please include your iPhone model, iOS version, and a short description of what you were doing when the problem appeared.</span>
+                    <span data-l="ru">Когда сообщаете о проблеме, укажите модель iPhone, версию iOS и кратко — что именно делали, когда столкнулись с проблемой.</span>
+                </p>
+            </section>
+        </main>
+
+        <footer class="bottom">
+            <div class="links">
+                <a href="/">
+                    <span data-l="en">Home</span>
+                    <span data-l="ru">Главная</span>
+                </a>
+                <a href="/privacy/">
+                    <span data-l="en">Privacy</span>
+                    <span data-l="ru">Конфиденциальность</span>
+                </a>
+                <a href="/clip/">App Clip</a>
+                <a href="https://github.com/PeerXOrg" target="_blank" rel="noopener">
+                    <span data-l="en">Source</span>
+                    <span data-l="ru">Исходный код</span>
+                </a>
+            </div>
+            <div class="small">
+                <span data-l="en">© 2026 PeerX · Built for peers · Not affiliated with 21 School</span>
+                <span data-l="ru">© 2026 PeerX · Сделано для пиров · Не аффилирован со Школой 21</span>
+            </div>
+        </footer>
+    </div>
+
+    <script src="/assets/peerx.js"></script>
+</body>
+</html>
