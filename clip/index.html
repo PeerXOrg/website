@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-platform="desktop-other">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
@@ -21,18 +21,30 @@
     <link rel="apple-touch-icon" href="/logo-1024.png">
 
     <script>
+        // Pre-paint language + platform detection (avoids FOUC).
         (function () {
-            document.documentElement.classList.add('js');
+            var el = document.documentElement;
+            el.classList.add('js');
+            var qs = new URLSearchParams(location.search);
             try {
-                var param = new URLSearchParams(location.search).get('lang');
                 var stored = localStorage.getItem('peerx-lang');
                 var nav = (navigator.language || 'en').toLowerCase();
-                var detected = param || stored || (nav.startsWith('ru') ? 'ru' : 'en');
-                if (detected !== 'en' && detected !== 'ru') detected = 'en';
-                document.documentElement.lang = detected;
+                var lang = qs.get('lang') || stored || (nav.startsWith('ru') ? 'ru' : 'en');
+                if (lang !== 'en' && lang !== 'ru') lang = 'en';
+                el.lang = lang;
             } catch (e) {
-                document.documentElement.lang = 'en';
+                el.lang = 'en';
             }
+            var ua = navigator.userAgent || '';
+            var forced = qs.get('platform');
+            var platform;
+            if (forced === 'desktop') platform = 'desktop-other';
+            else if (forced === 'ios' || forced === 'android' || forced === 'desktop-mac' || forced === 'desktop-other') platform = forced;
+            else if (/Android/i.test(ua)) platform = 'android';
+            else if (/iPhone|iPod|iPad/i.test(ua) || (/Macintosh/i.test(ua) && navigator.maxTouchPoints > 1)) platform = 'ios';
+            else if (/Macintosh|Mac OS X/i.test(ua)) platform = 'desktop-mac';
+            else platform = 'desktop-other';
+            el.setAttribute('data-platform', platform);
         })();
     </script>
 
@@ -140,27 +152,39 @@
                     <img class="clip-logo" src="/assets/logo-hero.svg" alt="">
                 </div>
 
-                <p class="eyebrow">App Clip</p>
+                <p class="eyebrow">
+                    <span data-os="ios desktop">App Clip</span>
+                    <span data-os="android">Android</span>
+                </p>
 
                 <h1 class="clip-title">
                     <span data-l="en">Your campus pass<br><span class="accent">in seconds</span></span>
                     <span data-l="ru">Пропуск кампуса<br><span class="accent">за секунды</span></span>
                 </h1>
 
-                <p class="clip-tagline">
+                <p class="clip-tagline" data-os="ios desktop">
                     <span data-l="en">PeerX App Clip issues a Wallet pass without installing the full app. Sign in with your 21 School Applicant — the pass arrives in Apple Wallet.</span>
                     <span data-l="ru">App Clip PeerX выпускает пропуск Wallet без установки полного приложения. Войдите своим Applicant Школы 21 — пропуск появится в Apple Wallet.</span>
                 </p>
+                <p class="clip-tagline" data-os="android">
+                    <span data-l="en">PeerX for Android puts a refreshing campus QR right in the app. Sign in with your 21 School Applicant — no Wallet needed.</span>
+                    <span data-l="ru">PeerX для Android держит обновляющийся QR-пропуск кампуса прямо в приложении. Войдите своим Applicant Школы 21 — Wallet не нужен.</span>
+                </p>
 
                 <div class="clip-actions">
-                    <a class="btn btn-primary" href="https://apps.apple.com/us/app/peerx-pass/id6767598606">
-                        <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-                            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
-                            <polyline points="7 10 12 15 17 10"/>
-                            <line x1="12" y1="15" x2="12" y2="3"/>
+                    <a class="btn btn-primary cta-ios" data-os="ios desktop" href="https://apps.apple.com/us/app/peerx-pass/id6767598606">
+                        <svg class="icon" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+                            <path d="M16.365 1.43c0 1.14-.493 2.27-1.177 3.08-.744.9-1.99 1.57-2.987 1.57-.12 0-.23-.02-.3-.03-.01-.06-.04-.22-.04-.39 0-1.15.572-2.27 1.206-2.98.804-.94 2.142-1.64 3.248-1.68.03.13.05.28.05.43zm4.565 15.71c-.03.07-.463 1.58-1.518 3.12-.945 1.34-1.94 2.71-3.43 2.71-1.517 0-1.9-.88-3.63-.88-1.698 0-2.302.91-3.67.91-1.377 0-2.332-1.26-3.428-2.8-1.287-1.82-2.323-4.63-2.323-7.28 0-4.28 2.797-6.55 5.552-6.55 1.448 0 2.675.95 3.6.95.865 0 2.222-1.01 3.902-1.01.613 0 2.886.06 4.374 2.19-.13.09-2.383 1.37-2.383 4.19 0 3.26 2.854 4.42 2.955 4.45z"/>
                         </svg>
                         <span data-l="en">Get on App Store</span>
                         <span data-l="ru">Скачать в App Store</span>
+                    </a>
+                    <a class="btn btn-primary cta-android" data-os="android" href="https://github.com/PeerXOrg/android-app/releases/latest">
+                        <svg class="icon" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+                            <path d="M17.6 9.48l1.84-3.18c.16-.31.04-.69-.26-.85a.637.637 0 0 0-.83.22l-1.88 3.24a11.46 11.46 0 0 0-9.42 0L3.17 5.67a.637.637 0 0 0-.83-.22c-.3.16-.42.54-.26.85L3.92 9.48A10.78 10.78 0 0 0 0 17.5h24a10.78 10.78 0 0 0-3.92-8.02zM7 15.25a1.25 1.25 0 1 1 0-2.5 1.25 1.25 0 0 1 0 2.5zm10 0a1.25 1.25 0 1 1 0-2.5 1.25 1.25 0 0 1 0 2.5z"/>
+                        </svg>
+                        <span data-l="en">Get for Android</span>
+                        <span data-l="ru">Скачать для Android</span>
                     </a>
                     <a class="btn btn-secondary" href="/">
                         <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
@@ -171,9 +195,13 @@
                     </a>
                 </div>
 
-                <p class="clip-hint">
+                <p class="clip-hint" data-os="ios desktop">
                     <span data-l="en">On iPhone running iOS 14 or later, the App Clip card appears at the top of the screen when this link opens from Safari, Messages, or a Smart App Banner. If nothing appears, install PeerX from the App Store above.</span>
                     <span data-l="ru">На iPhone с iOS 14 и новее карточка App Clip появляется сверху при переходе по этой ссылке из Safari, Сообщений или Smart App Banner. Если карточки нет — установите PeerX из App Store выше.</span>
+                </p>
+                <p class="clip-hint" data-os="android">
+                    <span data-l="en">App Clips are an iPhone feature. On Android, install PeerX from the link above — the APK is signed and built from source on GitHub.</span>
+                    <span data-l="ru">App Clip — функция iPhone. На Android установите PeerX по ссылке выше — APK подписан и собирается из исходников на GitHub.</span>
                 </p>
             </section>
         </main>

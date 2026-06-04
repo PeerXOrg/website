@@ -41,6 +41,36 @@ body {
 html[lang="en"] [data-l="en"] { display: revert; }
 html[lang="ru"] [data-l="ru"] { display: revert; }
 
+/*Platform gating (mirrors [data-l]); hide non-matching variants, not revert — that would drop .btn to inline. */
+html[data-platform="ios"]           [data-os]:not([data-os~="ios"]),
+html[data-platform="android"]       [data-os]:not([data-os~="android"]),
+html[data-platform="desktop-mac"]   [data-os]:not([data-os~="desktop"]),
+html[data-platform="desktop-other"] [data-os]:not([data-os~="desktop"]) {
+    display: none;
+}
+
+/*Desktop hero shows both buttons; trailing one styled secondary. Scoped to .cta-row (clip is single-download). */
+html[data-platform="desktop-mac"] .cta-row .cta-android,
+html[data-platform="desktop-other"] .cta-row .cta-ios {
+    background: var(--glass-bg);
+    color: var(--fg);
+    border: 1px solid var(--glass-border);
+    box-shadow: none;
+    -webkit-backdrop-filter: blur(20px) saturate(180%);
+    backdrop-filter: blur(20px) saturate(180%);
+}
+html[data-platform="desktop-mac"] .cta-row .cta-android:hover,
+html[data-platform="desktop-other"] .cta-row .cta-ios:hover {
+    background: var(--glass-bg-hover);
+    border-color: var(--glass-border-hover);
+    box-shadow: none;
+}
+html[data-platform="desktop-mac"] .cta-row .cta-android::after,
+html[data-platform="desktop-other"] .cta-row .cta-ios::after {
+    content: none;
+}
+html[data-platform="desktop-other"] .cta-row .cta-android { order: -1; }
+
 /*Ambient backdrop (3 drifting glows + grain) */
 .ambient {
     position: fixed;

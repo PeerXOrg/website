@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-platform="desktop-other">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
@@ -20,19 +20,30 @@
     <link rel="apple-touch-icon" href="/logo-1024.png">
 
     <script>
-        // Pre-paint language detection (avoids FOUC).
+        // Pre-paint language + platform detection (avoids FOUC).
         (function () {
-            document.documentElement.classList.add('js');
+            var el = document.documentElement;
+            el.classList.add('js');
+            var qs = new URLSearchParams(location.search);
             try {
-                var param = new URLSearchParams(location.search).get('lang');
                 var stored = localStorage.getItem('peerx-lang');
                 var nav = (navigator.language || 'en').toLowerCase();
-                var detected = param || stored || (nav.startsWith('ru') ? 'ru' : 'en');
-                if (detected !== 'en' && detected !== 'ru') detected = 'en';
-                document.documentElement.lang = detected;
+                var lang = qs.get('lang') || stored || (nav.startsWith('ru') ? 'ru' : 'en');
+                if (lang !== 'en' && lang !== 'ru') lang = 'en';
+                el.lang = lang;
             } catch (e) {
-                document.documentElement.lang = 'en';
+                el.lang = 'en';
             }
+            var ua = navigator.userAgent || '';
+            var forced = qs.get('platform');
+            var platform;
+            if (forced === 'desktop') platform = 'desktop-other';
+            else if (forced === 'ios' || forced === 'android' || forced === 'desktop-mac' || forced === 'desktop-other') platform = forced;
+            else if (/Android/i.test(ua)) platform = 'android';
+            else if (/iPhone|iPod|iPad/i.test(ua) || (/Macintosh/i.test(ua) && navigator.maxTouchPoints > 1)) platform = 'ios';
+            else if (/Macintosh|Mac OS X/i.test(ua)) platform = 'desktop-mac';
+            else platform = 'desktop-other';
+            el.setAttribute('data-platform', platform);
         })();
     </script>
 
@@ -102,6 +113,13 @@
             justify-content: center;
             gap: 10px;
             flex-wrap: wrap;
+        }
+        .cta-hint {
+            margin: 28px auto 0;
+            max-width: 430px;
+            font-size: 13px;
+            line-height: 1.6;
+            color: var(--fg-muted);
         }
 
         section.block { margin-bottom: 72px; }
@@ -197,33 +215,61 @@
                 </div>
 
                 <h1 class="hero-title">
-                    <span data-l="en">Your campus pass<br><span class="accent">in Apple Wallet</span></span>
-                    <span data-l="ru">Пропуск в кампус<br><span class="accent">в Apple Wallet</span></span>
+                    <span data-l="en">Your campus pass<br></span>
+                    <span data-l="ru">Пропуск в кампус<br></span>
+                    <span class="accent" data-os="ios"><span data-l="en">in Apple Wallet</span><span data-l="ru">в Apple Wallet</span></span>
+                    <span class="accent" data-os="android"><span data-l="en">on your Android</span><span data-l="ru">на вашем Android</span></span>
+                    <span class="accent" data-os="desktop"><span data-l="en">on your phone</span><span data-l="ru">на вашем телефоне</span></span>
                 </h1>
 
-                <p class="tagline">
+                <p class="tagline" data-os="ios">
                     <span data-l="en">Sign in once with your 21 School Applicant. PeerX issues a Wallet pass that lives on your iPhone and renews itself before it expires — and shows up on your Lock Screen the moment you arrive at the campus.</span>
                     <span data-l="ru">Войдите один раз своим Applicant Школы 21. PeerX выпускает пропуск Wallet, который живёт на iPhone и сам продлевается до истечения срока — и появляется на экране блокировки, как только вы пришли в кампус.</span>
                 </p>
+                <p class="tagline" data-os="android">
+                    <span data-l="en">Sign in once with your 21 School Applicant. PeerX keeps a refreshing campus QR in the app — locked behind your fingerprint or face, and renewed automatically before it expires.</span>
+                    <span data-l="ru">Войдите один раз своим Applicant Школы 21. PeerX держит обновляющийся QR-пропуск кампуса прямо в приложении — под защитой отпечатка или лица, и продлевает его автоматически до истечения срока.</span>
+                </p>
+                <p class="tagline" data-os="desktop">
+                    <span data-l="en">Sign in once with your 21 School Applicant. PeerX turns it into a campus QR that renews itself before it expires — in Apple Wallet on iPhone, in the app on Android.</span>
+                    <span data-l="ru">Войдите один раз своим Applicant Школы 21. PeerX превращает его в QR-пропуск кампуса, который сам продлевается до истечения срока — в Apple Wallet на iPhone и прямо в приложении на Android.</span>
+                </p>
 
                 <div class="cta-row">
-                    <a class="btn btn-primary" href="https://apps.apple.com/us/app/peerx-pass/id6767598606">
-                        <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-                            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
-                            <polyline points="7 10 12 15 17 10"/>
-                            <line x1="12" y1="15" x2="12" y2="3"/>
+                    <a class="btn btn-primary cta-ios" data-os="ios desktop" href="https://apps.apple.com/us/app/peerx-pass/id6767598606">
+                        <svg class="icon" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+                            <path d="M16.365 1.43c0 1.14-.493 2.27-1.177 3.08-.744.9-1.99 1.57-2.987 1.57-.12 0-.23-.02-.3-.03-.01-.06-.04-.22-.04-.39 0-1.15.572-2.27 1.206-2.98.804-.94 2.142-1.64 3.248-1.68.03.13.05.28.05.43zm4.565 15.71c-.03.07-.463 1.58-1.518 3.12-.945 1.34-1.94 2.71-3.43 2.71-1.517 0-1.9-.88-3.63-.88-1.698 0-2.302.91-3.67.91-1.377 0-2.332-1.26-3.428-2.8-1.287-1.82-2.323-4.63-2.323-7.28 0-4.28 2.797-6.55 5.552-6.55 1.448 0 2.675.95 3.6.95.865 0 2.222-1.01 3.902-1.01.613 0 2.886.06 4.374 2.19-.13.09-2.383 1.37-2.383 4.19 0 3.26 2.854 4.42 2.955 4.45z"/>
                         </svg>
                         <span data-l="en">Get on App Store</span>
                         <span data-l="ru">Скачать в App Store</span>
                     </a>
-                    <a class="btn btn-secondary" href="/clip/">
+                    <a class="btn btn-secondary cta-clip" data-os="ios" href="/clip/">
                         <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
                             <path d="M5 12h14M13 5l7 7-7 7"/>
                         </svg>
                         <span data-l="en">Try without installing</span>
                         <span data-l="ru">Запустить без установки</span>
                     </a>
+                    <a class="btn btn-primary cta-android" data-os="android desktop" href="https://github.com/PeerXOrg/android-app/releases/latest">
+                        <svg class="icon" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+                            <path d="M17.6 9.48l1.84-3.18c.16-.31.04-.69-.26-.85a.637.637 0 0 0-.83.22l-1.88 3.24a11.46 11.46 0 0 0-9.42 0L3.17 5.67a.637.637 0 0 0-.83-.22c-.3.16-.42.54-.26.85L3.92 9.48A10.78 10.78 0 0 0 0 17.5h24a10.78 10.78 0 0 0-3.92-8.02zM7 15.25a1.25 1.25 0 1 1 0-2.5 1.25 1.25 0 0 1 0 2.5zm10 0a1.25 1.25 0 1 1 0-2.5 1.25 1.25 0 0 1 0 2.5z"/>
+                        </svg>
+                        <span data-l="en">Get for Android</span>
+                        <span data-l="ru">Скачать для Android</span>
+                    </a>
+                    <a class="btn btn-secondary cta-gh" data-os="android" href="https://github.com/PeerXOrg/android-app" target="_blank" rel="noopener">
+                        <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                            <polyline points="16 18 22 12 16 6"/>
+                            <polyline points="8 6 2 12 8 18"/>
+                        </svg>
+                        <span data-l="en">View on GitHub</span>
+                        <span data-l="ru">Открыть на GitHub</span>
+                    </a>
                 </div>
+                <p class="cta-hint" data-os="android">
+                    <span data-l="en">Android asks you to allow installs from your browser the first time. The APK is signed and built from source on GitHub.</span>
+                    <span data-l="ru">В первый раз Android попросит разрешить установку из браузера. APK подписан и собирается из исходников на GitHub.</span>
+                </p>
             </section>
 
             <section class="block reveal">
@@ -243,15 +289,16 @@
                     <div class="how-step">
                         <span class="step-num">2</span>
                         <span class="step-text">
-                            <span data-l="en">Tap <strong>Add to Apple Wallet</strong> — your pass is signed and added in one move.</span>
-                            <span data-l="ru">Нажмите <strong>Добавить в Apple Wallet</strong> — пропуск подпишется и добавится в один тап.</span>
+                            <span data-os="ios"><span data-l="en">Tap <strong>Add to Apple Wallet</strong> — your pass is signed and added in one move.</span><span data-l="ru">Нажмите <strong>Добавить в Apple Wallet</strong> — пропуск подпишется и добавится в один тап.</span></span>
+                            <span data-os="android"><span data-l="en">Your campus QR appears in the app, locked behind your fingerprint or face.</span><span data-l="ru">QR-пропуск кампуса появляется в приложении — под защитой отпечатка или лица.</span></span>
+                            <span data-os="desktop"><span data-l="en">On iPhone, tap <strong>Add to Apple Wallet</strong>. On Android, your QR opens right in the app.</span><span data-l="ru">На iPhone нажмите <strong>Добавить в Apple Wallet</strong>. На Android QR открывается прямо в приложении.</span></span>
                         </span>
                     </div>
                     <div class="how-step">
                         <span class="step-num">3</span>
                         <span class="step-text">
-                            <span data-l="en">Show the QR at the campus entrance. The pass refreshes itself.</span>
-                            <span data-l="ru">Покажите QR на входе в кампус. Пропуск обновляется сам.</span>
+                            <span data-l="en">Show the QR at the campus entrance. It refreshes itself.</span>
+                            <span data-l="ru">Покажите QR на входе в кампус. Он обновляется сам.</span>
                         </span>
                     </div>
                 </div>
@@ -259,8 +306,9 @@
 
             <section class="block reveal">
                 <p class="eyebrow">
-                    <span data-l="en">Built for iOS&nbsp;26</span>
-                    <span data-l="ru">Сделано для iOS&nbsp;26</span>
+                    <span data-os="ios"><span data-l="en">Built for iOS&nbsp;26</span><span data-l="ru">Сделано для iOS&nbsp;26</span></span>
+                    <span data-os="android"><span data-l="en">Built for Android</span><span data-l="ru">Сделано для Android</span></span>
+                    <span data-os="desktop"><span data-l="en">Native on iOS &amp; Android</span><span data-l="ru">Нативно на iOS и Android</span></span>
                 </p>
                 <h2 class="section-title">
                     <span data-l="en">Quietly capable.</span>
@@ -279,7 +327,7 @@
                             <span data-l="ru">Продлевается сам</span>
                         </h3>
                         <p>
-                            <span data-l="en">PeerX renews your pass automatically before it expires. You're notified ahead of time if anything needs your attention.</span>
+                            <span data-l="en">PeerX renews your campus pass automatically before it expires. You're notified ahead of time if anything needs your attention.</span>
                             <span data-l="ru">PeerX продлевает пропуск автоматически до истечения срока. Заранее предупредит, если потребуется ваше внимание.</span>
                         </p>
                     </div>
@@ -291,12 +339,14 @@
                             </svg>
                         </div>
                         <h3>
-                            <span data-l="en">Lock Screen ready</span>
-                            <span data-l="ru">Готов к экрану блокировки</span>
+                            <span data-os="ios"><span data-l="en">Lock Screen ready</span><span data-l="ru">Готов к экрану блокировки</span></span>
+                            <span data-os="android"><span data-l="en">Biometric lock</span><span data-l="ru">Биометрический замок</span></span>
+                            <span data-os="desktop"><span data-l="en">Yours alone</span><span data-l="ru">Только ваш</span></span>
                         </h3>
                         <p>
-                            <span data-l="en">iOS surfaces the pass when you're near the campus — no need to unlock.</span>
-                            <span data-l="ru">iOS показывает пропуск, когда вы рядом с кампусом — разблокировка не нужна.</span>
+                            <span data-os="ios"><span data-l="en">iOS surfaces the pass when you're near the campus — no need to unlock.</span><span data-l="ru">iOS показывает пропуск, когда вы рядом с кампусом — разблокировка не нужна.</span></span>
+                            <span data-os="android"><span data-l="en">Your QR stays behind your fingerprint or face until you reveal it.</span><span data-l="ru">QR остаётся под отпечатком или лицом, пока вы его не откроете.</span></span>
+                            <span data-os="desktop"><span data-l="en">Unlocked by Face ID or fingerprint, hidden until you need it.</span><span data-l="ru">Открывается по Face ID или отпечатку, скрыт, пока не нужен.</span></span>
                         </p>
                     </div>
 
@@ -307,12 +357,14 @@
                             </svg>
                         </div>
                         <h3>
-                            <span data-l="en">Liquid Glass</span>
-                            <span data-l="ru">Liquid Glass</span>
+                            <span data-os="ios"><span data-l="en">Liquid Glass</span><span data-l="ru">Liquid Glass</span></span>
+                            <span data-os="android"><span data-l="en">Made for Android</span><span data-l="ru">Сделано для Android</span></span>
+                            <span data-os="desktop"><span data-l="en">Native on both</span><span data-l="ru">Нативно на обеих</span></span>
                         </h3>
                         <p>
-                            <span data-l="en">Native iOS 26 materials. Looks at home next to Wallet and Settings.</span>
-                            <span data-l="ru">Нативные материалы iOS 26. Естественно соседствует с Wallet и Настройками.</span>
+                            <span data-os="ios"><span data-l="en">Native iOS 26 materials. Looks at home next to Wallet and Settings.</span><span data-l="ru">Нативные материалы iOS 26. Естественно соседствует с Wallet и Настройками.</span></span>
+                            <span data-os="android"><span data-l="en">Built natively with Jetpack Compose. Looks at home on modern Android.</span><span data-l="ru">Нативно на Jetpack Compose. Естественно выглядит на современном Android.</span></span>
+                            <span data-os="desktop"><span data-l="en">Built with each platform's own UI toolkit.</span><span data-l="ru">Собрано на родном UI-тулките каждой платформы.</span></span>
                         </p>
                     </div>
 
@@ -327,8 +379,8 @@
                             <span data-l="ru">Приватность по умолчанию</span>
                         </h3>
                         <p>
-                            <span data-l="en">Credentials live in Keychain only. No analytics. No third parties.</span>
-                            <span data-l="ru">Учётные данные живут только в Keychain. Никакой аналитики и третьих лиц.</span>
+                            <span data-l="en">Credentials live in secure device storage only. No analytics. No third parties.</span>
+                            <span data-l="ru">Учётные данные живут только в защищённом хранилище устройства. Никакой аналитики и третьих лиц.</span>
                         </p>
                     </div>
                 </div>
@@ -343,8 +395,8 @@
                         </svg>
                     </div>
                     <p>
-                        <span data-l="en"><strong>No servers, no telemetry.</strong> Your 21 School Applicant credentials are kept in your iPhone's Keychain. They're sent over HTTPS only when you sign in — and only to the official 21 School Applicant backend. <a href="/privacy/">Read the full Privacy Policy →</a></span>
-                        <span data-l="ru"><strong>Без серверов и телеметрии.</strong> Учётные данные вашего Applicant Школы 21 хранятся в Keychain устройства. Отправляются по HTTPS только при входе — и только на официальный сервер Applicant Школы 21. <a href="/privacy/">Полная политика конфиденциальности →</a></span>
+                        <span data-l="en"><strong>No servers, no telemetry.</strong> Your 21 School Applicant credentials are kept in <span data-os="ios">your iPhone's Keychain</span><span data-os="android">your device's encrypted storage</span><span data-os="desktop">your device's secure storage</span>. They're sent over HTTPS only when you sign in — and only to the official 21 School Applicant backend. <a href="/privacy/">Read the full Privacy Policy →</a></span>
+                        <span data-l="ru"><strong>Без серверов и телеметрии.</strong> Учётные данные вашего Applicant Школы 21 хранятся в <span data-os="ios">Keychain устройства</span><span data-os="android">зашифрованном хранилище устройства</span><span data-os="desktop">защищённом хранилище устройства</span>. Отправляются по HTTPS только при входе — и только на официальный сервер Applicant Школы 21. <a href="/privacy/">Полная политика конфиденциальности →</a></span>
                     </p>
                 </div>
             </section>
