@@ -343,7 +343,6 @@ header.top {
 
 /*Buttons */
 .btn {
-    position: relative;
     display: inline-flex;
     align-items: center;
     justify-content: center;
@@ -359,8 +358,6 @@ header.top {
         background 0.25s var(--ease),
         border-color 0.25s var(--ease),
         box-shadow 0.25s var(--ease);
-    overflow: hidden;
-    isolation: isolate;
 }
 .btn:active { transform: scale(0.98); }
 .btn-primary {
@@ -370,23 +367,6 @@ header.top {
 }
 .btn-primary:hover {
     box-shadow: 0 1px 0 rgba(255, 255, 255, 0.4) inset, 0 12px 32px rgba(255, 255, 255, 0.16);
-}
-.btn-primary::after {
-    content: '';
-    position: absolute;
-    inset: 0;
-    background: linear-gradient(110deg,
-        transparent 25%,
-        rgba(255, 255, 255, 0.55) 50%,
-        transparent 75%);
-    transform: translateX(-120%);
-    pointer-events: none;
-    mix-blend-mode: overlay;
-}
-.btn-primary:hover::after { animation: shine 1.2s var(--ease-out); }
-@keyframes shine {
-    from { transform: translateX(-120%); }
-    to   { transform: translateX(120%); }
 }
 .btn-secondary {
     background: var(--glass-bg);
