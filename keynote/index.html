@@ -1,0 +1,514 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>How to build a startup — PeerX</title>
+<meta name="description" content="A no-nonsense playbook for building a startup. 22 slides — a talk at 21 School.">
+<meta name="theme-color" content="#000000">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+
+<meta property="og:title" content="How to build a startup — PeerX">
+<meta property="og:description" content="A no-nonsense playbook for building a startup. 22 slides.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://peerx.org/keynote/">
+<meta property="og:image" content="https://peerx.org/logo-1024.png">
+<meta name="twitter:card" content="summary_large_image">
+
+<link rel="icon" type="image/png" href="/logo-1024.png">
+<link rel="apple-touch-icon" href="/logo-1024.png">
+
+<script>
+(function(){
+  var el = document.documentElement;
+  try{
+    var qs = new URLSearchParams(location.search);
+    var stored = localStorage.getItem('peerx-lang');
+    var nav = (navigator.language || 'en').toLowerCase();
+    var lang = qs.get('lang') || stored || (nav.indexOf('ru') === 0 ? 'ru' : 'en');
+    if(lang !== 'en' && lang !== 'ru') lang = 'en';
+    el.lang = lang;
+  }catch(e){ el.lang = 'ru'; }
+})();
+</script>
+
+<style>
+  :root{
+    --black:#000;
+    --white:#fff;
+    --ink:#1d1d1f;
+    --ink-2:#6e6e73;
+    --snow:#f5f5f7;
+    --snow-2:#a1a1a6;
+    --accent:#ff6600;
+    --accent-ink:#d24e00;
+    --accent-lite:#ff8a3d;
+    --red:#ff3b30;
+    --ease:cubic-bezier(.22,.61,.36,1);
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  html{background:#000}
+  body{
+    font-family:-apple-system,BlinkMacSystemFont,"SF Pro Display","SF Pro Text","Helvetica Neue",Arial,sans-serif;
+    -webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility;
+    background:#000;overflow-x:hidden;
+  }
+
+  [data-l]{display:none}
+  html[lang="en"] [data-l="en"]{display:revert}
+  html[lang="ru"] [data-l="ru"]{display:revert}
+
+  #stage{position:relative;height:100vh;height:100svh;overflow:hidden}
+  .slide{
+    position:absolute;inset:0;
+    display:flex;align-items:center;justify-content:center;
+    padding:7vmin 9vmin;
+    opacity:0;visibility:hidden;
+    transition:opacity .5s var(--ease);
+    z-index:1;
+  }
+  .slide.active{opacity:1;visibility:visible;z-index:2}
+  .slide .wrap{width:100%;max-width:1200px}
+
+  .dark{background:var(--black)}
+  .dark .wrap{color:var(--snow)}
+  .light{background:var(--white)}
+  .light .wrap{color:var(--ink)}
+  .accent{background:linear-gradient(135deg,#ff7a18 0%,#ff5400 55%,#e23e00 100%)}
+  .accent .wrap{color:#fff}
+
+  .eyebrow{
+    font-size:clamp(13px,1.5vw,20px);font-weight:700;letter-spacing:.3em;
+    text-transform:uppercase;color:var(--accent-ink);margin-bottom:3.4vmin;
+  }
+  .dark .eyebrow{color:var(--accent-lite)}
+  .accent .eyebrow{color:rgba(255,255,255,.9)}
+
+  h1{font-size:clamp(46px,8.6vw,132px);font-weight:700;line-height:.97;letter-spacing:-.03em}
+  h2{font-size:clamp(36px,6vw,92px);font-weight:700;line-height:1.0;letter-spacing:-.028em}
+
+  .lead{
+    font-size:clamp(19px,2.5vw,34px);font-weight:400;line-height:1.32;
+    letter-spacing:-.01em;margin-top:3.4vmin;max-width:30ch;
+  }
+  .dark .lead{color:var(--snow-2)}
+  .light .lead{color:var(--ink-2)}
+  .accent .lead{color:rgba(255,255,255,.94)}
+
+  .meta{margin-top:5vmin;font-size:clamp(13px,1.45vw,20px);font-weight:600;letter-spacing:.01em}
+  .meta + .meta{margin-top:1.2vmin}
+  .light .meta{color:var(--ink-2)}
+  .dark .meta{color:var(--snow-2)}
+  .accent .meta{color:rgba(255,255,255,.85)}
+
+  .accent-text{color:var(--accent)}
+  .dark .accent-text{color:var(--accent-lite)}
+  .accent .accent-text{color:#fff;text-decoration:underline;text-decoration-thickness:.09em;text-underline-offset:.12em}
+
+  a.url{color:var(--accent-lite);text-decoration:underline;text-decoration-thickness:.07em;text-underline-offset:.18em;text-decoration-color:rgba(255,138,61,.5);transition:text-decoration-color .2s var(--ease)}
+  a.url:hover{text-decoration-color:var(--accent-lite)}
+
+  .myth-label{font-size:clamp(13px,1.5vw,20px);font-weight:700;letter-spacing:.26em;text-transform:uppercase;color:var(--ink-2);margin-bottom:2.6vmin}
+  .dark .myth-label{color:var(--snow-2)}
+  .myth-label .x{color:var(--red);margin-right:.4em}
+  .myth-old{
+    font-size:clamp(26px,4.6vw,62px);font-weight:700;line-height:1.05;letter-spacing:-.02em;
+    color:var(--ink-2);text-decoration:line-through;text-decoration-thickness:3px;text-decoration-color:rgba(0,0,0,.22);
+  }
+  .dark .myth-old{color:var(--snow-2);text-decoration-color:rgba(255,255,255,.24)}
+  .truth-label{font-size:clamp(13px,1.5vw,20px);font-weight:700;letter-spacing:.26em;text-transform:uppercase;color:var(--accent-ink);margin:3.4vmin 0 2.4vmin}
+  .dark .truth-label{color:var(--accent-lite)}
+  .truth-label .c{margin-right:.4em}
+  .myth-new{font-size:clamp(30px,5.4vw,76px);font-weight:700;line-height:1.04;letter-spacing:-.026em}
+  .note{margin-top:3.6vmin;font-size:clamp(16px,1.9vw,26px);font-weight:400;line-height:1.3;letter-spacing:-.01em}
+  .light .note{color:var(--ink-2)}
+  .dark .note{color:var(--snow-2)}
+
+  ul.clean{list-style:none;margin-top:4vmin}
+  ul.clean li{font-size:clamp(18px,2.6vw,34px);font-weight:500;line-height:1.46;letter-spacing:-.012em;padding:.4em 0}
+  ul.clean li span.dot{color:var(--accent);font-weight:700;margin-right:.55em}
+  .dark ul.clean li span.dot{color:var(--accent-lite)}
+
+  .rows{margin-top:3.4vmin;display:flex;flex-direction:column;gap:1.35vmin}
+  .row{display:flex;gap:1vmin;align-items:baseline;font-size:clamp(15px,2vw,27px);line-height:1.3;letter-spacing:-.01em}
+  .row b{font-weight:700;white-space:nowrap}
+  .row .yr{color:var(--accent-ink);font-weight:700;font-variant-numeric:tabular-nums}
+  .dark .row .yr{color:var(--accent-lite)}
+  .row .em{color:var(--ink-2)}
+  .dark .row .em{color:var(--snow-2)}
+
+  .site-header{
+    position:absolute;top:16px;left:50%;transform:translateX(-50%);z-index:55;
+    display:flex;align-items:center;gap:12px;
+    padding:7px 10px 7px 9px;
+    background:rgba(0,0,0,.55);
+    -webkit-backdrop-filter:blur(24px) saturate(180%);backdrop-filter:blur(24px) saturate(180%);
+    border:1px solid rgba(255,255,255,.12);border-radius:999px;
+  }
+  .brand-link{display:inline-flex;align-items:center;gap:8px;color:#fff;text-decoration:none;font-weight:600;font-size:15px;letter-spacing:-.01em;padding-left:1px}
+  .brand-mark{display:grid;place-items:center;width:26px;height:26px;border-radius:28%;background:#0a0a0a}
+  .brand-mark svg{width:26px;height:26px;display:block}
+  .lang-switch{display:inline-flex;align-items:center;gap:2px;padding:3px;background:rgba(255,255,255,.04);border-radius:999px;border:1px solid rgba(255,255,255,.06)}
+  .lang-pill{font:inherit;font-size:12px;font-weight:600;letter-spacing:.04em;color:rgba(255,255,255,.55);background:transparent;border:0;padding:5px 10px;border-radius:999px;cursor:pointer;transition:background .25s var(--ease),color .25s var(--ease)}
+  .lang-pill[aria-pressed="true"]{background:rgba(255,255,255,.10);color:#fff}
+  .lang-pill:hover{color:#fff}
+
+  #counter{position:absolute;right:2.4vmin;bottom:2vmin;z-index:50;font-size:13px;font-weight:700;letter-spacing:.04em;color:#8a8a8e;font-variant-numeric:tabular-nums;mix-blend-mode:difference}
+  #progress{position:absolute;top:0;left:0;height:3px;background:var(--accent);width:0;z-index:50;transition:width .4s var(--ease)}
+  #hint{position:absolute;left:2.4vmin;bottom:2vmin;z-index:50;font-size:12px;color:#8a8a8e;letter-spacing:.02em;mix-blend-mode:difference;transition:opacity .6s ease}
+  .nav-zone{position:absolute;top:0;bottom:0;width:22%;z-index:40;cursor:pointer}
+  #prevZone{left:0}#nextZone{right:0;width:78%}
+
+  .slide.active .wrap > *{animation:rise .6s var(--ease) both}
+  .slide.active .wrap > *:nth-child(1){animation-delay:.02s}
+  .slide.active .wrap > *:nth-child(2){animation-delay:.10s}
+  .slide.active .wrap > *:nth-child(3){animation-delay:.18s}
+  .slide.active .wrap > *:nth-child(4){animation-delay:.26s}
+  .slide.active .wrap > *:nth-child(5){animation-delay:.34s}
+  .slide.active .wrap > *:nth-child(6){animation-delay:.42s}
+  @keyframes rise{from{opacity:0;transform:translateY(22px)}to{opacity:1;transform:none}}
+  @media (prefers-reduced-motion:reduce){.slide.active .wrap > *{animation:none}}
+
+  #overview{position:fixed;inset:0;background:#0a0a0a;z-index:100;display:none;grid-template-columns:repeat(4,1fr);gap:14px;padding:34px;overflow-y:auto;align-content:start}
+  #overview.show{display:grid}
+  .ov{position:relative;aspect-ratio:16/9;border-radius:10px;overflow:hidden;cursor:pointer;border:2px solid transparent;background:#1c1c1e;display:flex;align-items:center;justify-content:center;text-align:center;padding:10px;transition:border-color .15s,transform .15s}
+  .ov:hover{transform:translateY(-3px)}
+  .ov.cur{border-color:var(--accent)}
+  .ov .ovn{position:absolute;top:6px;left:8px;font-size:11px;font-weight:700;color:#8a8a8e}
+  .ov .ovt{font-size:13px;font-weight:600;line-height:1.2;color:#f5f5f7;letter-spacing:-.01em}
+  .ov.t-dark{background:#000}.ov.t-light{background:#fff}.ov.t-light .ovt{color:#1d1d1f}
+  .ov.t-accent{background:linear-gradient(135deg,#ff7a18,#e23e00)}.ov.t-accent .ovt{color:#fff}
+
+  .site-footer{max-width:720px;margin:0 auto;padding:30px 24px 44px;text-align:center;color:rgba(255,255,255,.35);font-size:13px;border-top:1px solid rgba(255,255,255,.06)}
+  .site-footer .links{display:flex;gap:18px;justify-content:center;margin-bottom:14px;flex-wrap:wrap}
+  .site-footer a{color:rgba(255,255,255,.55);text-decoration:none;transition:color .2s var(--ease)}
+  .site-footer a:hover{color:#fff}
+  .site-footer .small{font-size:12px;color:rgba(255,255,255,.35)}
+
+  :focus-visible{outline:2px solid rgba(255,255,255,.6);outline-offset:3px;border-radius:4px}
+
+  html:fullscreen .site-header,html:-webkit-full-screen .site-header{display:none}
+
+  @media print{
+    @page{size:1280px 720px;margin:0}
+    html,body{height:auto;overflow:visible;background:#fff}
+    #stage{position:static;height:auto}
+    .slide{position:relative;inset:auto;opacity:1!important;visibility:visible!important;width:1280px;height:720px;page-break-after:always;break-after:page;transition:none}
+    .slide .wrap > *{animation:none!important}
+    #counter,#progress,#hint,.nav-zone,#overview,.site-header,.site-footer{display:none!important}
+  }
+</style>
+</head>
+<body>
+
+<div id="stage">
+
+  <header class="site-header">
+    <a class="brand-link" href="/" aria-label="PeerX">
+      <span class="brand-mark" aria-hidden="true">
+        <svg viewBox="0 0 1024 1024" fill="#fff"><path d="M284.753 218.747C300.676 218.534 317.408 218.515 333.372 218.682C350.929 218.865 370.521 215.358 384.091 228.723C388.785 233.344 392.086 239.192 393.617 245.599C395.277 252.434 394.746 265.79 394.725 273.431L394.595 316.609C394.663 330.684 397.696 339.861 407.998 350.002C420.361 361.951 432.788 373.832 445.28 385.646C455.401 395.377 471.254 412.837 484.718 416.903C503.845 422.68 532.975 422.994 550.34 411.801C557.14 407.417 563.98 400.345 569.895 394.655L594.325 371.077C602.625 363.052 611.48 355.035 619.25 346.563C629.2 335.719 629.115 322.258 629.085 308.717L629 276.273C628.955 259.216 626.575 241.988 639.53 229.149C651.98 216.805 665.69 218.715 681.91 218.695L710.7 218.66L730.37 218.656C744.465 218.662 755.345 218.495 765.89 229.123C774.915 238.238 776.34 249.162 776.285 261.34C776.185 284.432 776.49 307.505 776.205 330.573C775.9 338.959 773.205 346.589 767.795 353.045C766.72 354.33 765.55 355.533 764.295 356.645C752.83 366.795 740.385 365.529 726.265 365.503L700.3 365.447C659.05 365.358 658.675 368.081 630.93 397.285L573.87 457.549C567.71 464.047 549.98 483.382 543.77 487.696C535.86 493.24 526.635 496.611 517.02 497.474C505.93 498.476 494.805 496.003 485.186 490.398C475.45 484.639 463.521 470.842 455.401 462.223L404.192 407.945C394.845 398.033 385.63 387.919 375.815 378.481C360.298 363.562 341.937 365.405 322.266 365.457L295.396 365.53C282.445 365.562 270.552 366.033 260.168 356.773C253.564 350.885 248.664 341.413 248.502 332.5C248.106 310.588 248.427 288.646 248.317 266.729C248.3 260.575 247.942 252.357 249.151 246.481C250.405 240.446 253.243 234.855 257.375 230.282C265.059 221.835 273.718 219.195 284.753 218.747Z"/><path d="M505.85 521.625C524.74 519.95 539.445 525.615 552.315 539.535C561.76 549.75 571.165 560.03 580.545 570.295L627.81 622.195C652.65 649.785 649.395 650.005 686.27 649.945L722.935 649.85C739.965 649.79 755.61 647.72 767.86 662.095C777.45 673.345 776.34 684.605 776.33 698.45L776.28 725.975C776.28 738.44 776.49 751.805 775.985 764.085C775.1 773.25 770.065 781.625 763.285 787.4C752.665 796.455 741.075 795.125 727.955 795.14L698.25 795.13C686.145 795.125 672.615 795.47 660.815 794.855C645.165 794.04 632.115 781.415 629.69 766.13C628.67 759.685 628.975 751.45 628.995 744.585L629.075 716.77C629.145 688.89 629.55 685.735 609.555 665.77L590.995 647.295L568.61 625.05C552.24 608.845 545.32 601.105 521.15 598.55C487.662 598.33 481.087 600.175 457.121 624.04L437.156 643.925L416.479 664.365C397.331 683.295 394.599 685.82 394.639 712.995L394.727 745.265C394.766 765.555 395.353 781.86 374.1 792.22C366.058 796.14 353.608 795.085 344.758 795.14C326.045 795.26 307.308 795.095 288.593 795.145C278.923 795.17 271.502 794.785 263.32 789.13C255.778 783.905 250.614 775.905 248.959 766.88C247.765 760.225 248.397 733.84 248.391 725.085L248.309 697.44C248.295 691.765 248.033 684.465 248.877 679.02C249.683 673.725 251.708 668.69 254.793 664.315C262.837 652.98 274.397 649.805 287.594 649.81L334.581 649.9C341.673 649.915 353.364 650.285 360.16 649.72C363.149 649.47 366.097 648.855 368.939 647.895C379.144 644.485 397.836 621.38 405.648 612.81L457.771 555.59C463.616 549.17 473.03 538.04 479.39 532.98C485.269 528.25 492.086 524.82 499.39 522.92C500.415 522.67 501.445 522.445 502.48 522.25C503.6 522.03 504.725 521.825 505.85 521.625Z"/></svg>
+      </span>
+      <span>PeerX</span>
+    </a>
+    <div class="lang-switch" role="group" aria-label="Language">
+      <button class="lang-pill" data-set-lang="en" aria-pressed="false">EN</button>
+      <button class="lang-pill" data-set-lang="ru" aria-pressed="false">RU</button>
+    </div>
+  </header>
+
+  <section class="slide dark" data-t="Титул">
+    <div class="wrap">
+      <div class="eyebrow"><span data-l="ru">Школа 21 · Москва</span><span data-l="en">21 School · Moscow</span></div>
+      <h1><span data-l="ru">Как собрать<br>стартап</span><span data-l="en">How to build<br>a startup</span></h1>
+      <p class="lead"><span data-l="ru">Без розовых очков. То, что понял на своей шкуре за шесть заходов.</span><span data-l="en">No rose-tinted glasses. What I learned the hard way — six times over.</span></p>
+      <div class="meta"><span data-l="ru">Никита Арутюнов · 6 стартапов · CTO · выпускник Школы 21</span><span data-l="en">Nikita Arutyunov · 6 startups · CTO · 21 School alum</span></div>
+    </div>
+  </section>
+
+  <section class="slide dark" data-t="Стартап = рост">
+    <div class="wrap">
+      <div class="eyebrow"><span data-l="ru">Договоримся на берегу</span><span data-l="en">Let's get one thing straight</span></div>
+      <h2><span data-l="ru">Стартап — это не&nbsp;приложение.<br>Это <span class="accent-text">рост</span>.</span><span data-l="en">A startup isn't an&nbsp;app.<br>It's <span class="accent-text">growth</span>.</span></h2>
+      <p class="lead"><span data-l="ru">Это машина для быстрого роста. Нет роста — это не стартап, а просто бизнес. Тоже нормально, просто правила другие.</span><span data-l="en">It's a machine built to grow fast. No growth — it's not a startup, just a business. That's fine too, the rules are simply different.</span></p>
+    </div>
+  </section>
+
+  <section class="slide light" data-t="Миф: идея">
+    <div class="wrap">
+      <div class="myth-label"><span class="x">✕</span><span data-l="ru">Миф № 1</span><span data-l="en">Myth № 1</span></div>
+      <div class="myth-old"><span data-l="ru">«Сначала нужна гениальная идея»</span><span data-l="en">“You need a brilliant idea first”</span></div>
+      <div class="truth-label"><span class="c">✓</span><span data-l="ru">Правда</span><span data-l="en">Truth</span></div>
+      <div class="myth-new"><span data-l="ru">Идея ничего не стоит. Платят за то, что ты с ней <span class="accent-text">сделал</span>.</span><span data-l="en">An idea is worth nothing. You get paid for what you <span class="accent-text">do</span> with it.</span></div>
+      <div class="note"><span data-l="ru">Загугли любого кумира — на старте идея была совсем не новой.</span><span data-l="en">Google any idol — their starting idea wasn't new at all.</span></div>
+    </div>
+  </section>
+
+  <section class="slide accent" data-t="Сделай нужное">
+    <div class="wrap">
+      <div class="eyebrow"><span data-l="ru">Если запомнить один слайд — этот</span><span data-l="en">If you remember one slide — this one</span></div>
+      <h1><span data-l="ru">Сделай то,<br>что людям нужно.</span><span data-l="en">Make something<br>people want.</span></h1>
+      <p class="lead"><span data-l="ru">Звучит банально — пока не посчитаешь, сколько команд умерло, делая то, что было нужно только им самим.</span><span data-l="en">Sounds obvious — until you count how many teams died building something only they themselves wanted.</span></p>
+    </div>
+  </section>
+
+  <section class="slide light" data-t="Говори с юзерами">
+    <div class="wrap">
+      <div class="eyebrow"><span data-l="ru">Как понять, что нужно</span><span data-l="en">How to find out what's wanted</span></div>
+      <h2><span data-l="ru">Поговори<br>с пользователями.</span><span data-l="en">Talk to<br>your users.</span></h2>
+      <p class="lead"><span data-l="ru">Не угадывай за людей. Выйди и спроси — это скучно, бесплатно, и почему-то почти никто так не делает.</span><span data-l="en">Don't guess on their behalf. Go and ask — it's boring, free, and somehow almost nobody does it.</span></p>
+    </div>
+  </section>
+
+  <section class="slide dark" data-t="Миф: сначала продукт">
+    <div class="wrap">
+      <div class="myth-label"><span class="x">✕</span><span data-l="ru">Миф № 2</span><span data-l="en">Myth № 2</span></div>
+      <div class="myth-old"><span data-l="ru">«Сначала продукт, потом клиенты»</span><span data-l="en">“Product first, customers later”</span></div>
+      <div class="truth-label"><span class="c">✓</span><span data-l="ru">Правда</span><span data-l="en">Truth</span></div>
+      <div class="myth-new"><span data-l="ru">Сначала чужая <span class="accent-text">боль</span>. Код — в самом конце.</span><span data-l="en">Someone's <span class="accent-text">pain</span> first. Code comes dead last.</span></div>
+    </div>
+  </section>
+
+  <section class="slide light" data-t="Не масштабируй">
+    <div class="wrap">
+      <div class="eyebrow"><span data-l="ru">Первые клиенты</span><span data-l="en">Your first customers</span></div>
+      <h2><span data-l="ru">Делай руками то,<br>что не масштабируется.</span><span data-l="en">Do things by hand<br>that don't scale.</span></h2>
+      <p class="lead"><span data-l="ru">Первую сотню клиентов притаскиваешь по одному, вручную. Это не костыль — это и есть работа на старте.</span><span data-l="en">You drag in your first hundred customers one by one, by hand. That's not a hack — that's the job early on.</span></p>
+    </div>
+  </section>
+
+  <section class="slide dark" data-t="Запускайся рано">
+    <div class="wrap">
+      <div class="eyebrow"><span data-l="ru">Когда выкатывать</span><span data-l="en">When to ship</span></div>
+      <h2><span data-l="ru">Стыдно за первую версию —<br>значит, <span class="accent-text">вовремя</span>.</span><span data-l="en">Embarrassed by v1?<br>Then you shipped <span class="accent-text">on time</span>.</span></h2>
+      <p class="lead"><span data-l="ru">Идеальный продукт в столе всегда проигрывает сырому, но живому. Всегда.</span><span data-l="en">A perfect product in a drawer always loses to a rough one that's live. Always.</span></p>
+    </div>
+  </section>
+
+  <section class="slide light" data-t="Миф: MVP = апп">
+    <div class="wrap">
+      <div class="myth-label"><span class="x">✕</span><span data-l="ru">Миф № 3</span><span data-l="en">Myth № 3</span></div>
+      <div class="myth-old"><span data-l="ru">«MVP — это приложение»</span><span data-l="en">“An MVP is an app”</span></div>
+      <div class="truth-label"><span class="c">✓</span><span data-l="ru">Правда</span><span data-l="en">Truth</span></div>
+      <div class="myth-new"><span data-l="ru">MVP бывает из <span class="accent-text">Excel, чата</span> и тебя на телефоне.</span><span data-l="en">An MVP can be <span class="accent-text">Excel, a chat</span> and you on the phone.</span></div>
+      <div class="note"><span data-l="ru">Если первая версия — это «полгода разработки», ты делаешь не MVP, а долг.</span><span data-l="en">If your first version means “six months of dev,” you're building debt, not an MVP.</span></div>
+    </div>
+  </section>
+
+  <section class="slide light" data-t="100 фанатов">
+    <div class="wrap">
+      <div class="eyebrow"><span data-l="ru">За каким ростом гнаться</span><span data-l="en">Which growth to chase</span></div>
+      <h2><span data-l="ru">100 фанатов ><br>100 000 равнодушных.</span><span data-l="en">100 fans ><br>100,000 who shrug.</span></h2>
+      <p class="lead"><span data-l="ru">Десять человек, которые без тебя не могут, дороже десяти тысяч, которым «ну, прикольно».</span><span data-l="en">Ten people who can't live without you beat ten thousand who go “meh, neat.”</span></p>
+    </div>
+  </section>
+
+  <section class="slide accent" data-t="Бери деньги">
+    <div class="wrap">
+      <div class="eyebrow"><span data-l="ru">Про деньги</span><span data-l="en">About money</span></div>
+      <h1><span data-l="ru">Бери деньги<br>сразу.</span><span data-l="en">Charge money<br>from day one.</span></h1>
+      <p class="lead"><span data-l="ru">Платят — значит, нужно. Не платят — значит, нет. Честнее проверки спроса не бывает.</span><span data-l="en">They pay — it's needed. They don't — it isn't. No honester demand test exists.</span></p>
+    </div>
+  </section>
+
+  <section class="slide dark" data-t="Миф: нужны инвестиции">
+    <div class="wrap">
+      <div class="myth-label"><span class="x">✕</span><span data-l="ru">Миф № 4</span><span data-l="en">Myth № 4</span></div>
+      <div class="myth-old"><span data-l="ru">«Без инвестиций не начать»</span><span data-l="en">“You can't start without funding”</span></div>
+      <div class="truth-label"><span class="c">✓</span><span data-l="ru">Правда</span><span data-l="en">Truth</span></div>
+      <div class="myth-new"><span data-l="ru">Инвестиции — это <span class="accent-text">бензин</span>, а не ключ зажигания. Сначала заведись сам.</span><span data-l="en">Funding is <span class="accent-text">fuel</span>, not the ignition key. Get the engine running first.</span></div>
+    </div>
+  </section>
+
+  <section class="slide light" data-t="Скорость">
+    <div class="wrap">
+      <div class="eyebrow"><span data-l="ru">Твоё единственное оружие против больших</span><span data-l="en">Your only weapon against the big players</span></div>
+      <h2><span data-l="ru">В ресурсах они победят.<br>В <span class="accent-text">скорости</span> — нет.</span><span data-l="en">On resources they win.<br>On <span class="accent-text">speed</span> — they don't.</span></h2>
+      <p class="lead"><span data-l="ru">У них деньги, бренд и сотня человек в штате. У тебя — скорость. Единственное, что им не купить. Не слей её на согласования.</span><span data-l="en">They've got money, a brand, a hundred people on payroll. You've got speed — the one thing they can't buy. Don't waste it on approvals.</span></p>
+    </div>
+  </section>
+
+  <section class="slide dark" data-t="Дата смерти">
+    <div class="wrap">
+      <div class="eyebrow"><span data-l="ru">Деньги кончаются у всех</span><span data-l="en">Everyone runs out of money</span></div>
+      <h2><span data-l="ru">Знай свою<br>дату смерти.</span><span data-l="en">Know your<br>death date.</span></h2>
+      <p class="lead"><span data-l="ru">Открой табличку и посчитай, на сколько месяцев хватит денег. Знаешь цифру — ты живой. Не знаешь — уже почти нет.</span><span data-l="en">Open a spreadsheet and count how many months of cash you have. Know the number — you're alive. Don't — you're nearly dead already.</span></p>
+    </div>
+  </section>
+
+  <section class="slide light" data-t="Команда убивает">
+    <div class="wrap">
+      <div class="eyebrow"><span data-l="ru">Что убивает чаще, чем рынок</span><span data-l="en">What kills more often than the market</span></div>
+      <h2><span data-l="ru">Стартапы убивает<br>не рынок. Команда.</span><span data-l="en">Startups aren't killed<br>by the market. By the team.</span></h2>
+      <p class="lead"><span data-l="ru">Чаще всё разваливается не из-за продукта, а из-за того, что фаундеры переругались. Сооснователя выбирай, как тех, с кем идёшь в разведку.</span><span data-l="en">More often it falls apart not over the product, but because the founders fell out. Pick a co-founder like someone you'd go to war with.</span></p>
+    </div>
+  </section>
+
+  <section class="slide light" data-t="Миф: нужна звёздная команда">
+    <div class="wrap">
+      <div class="myth-label"><span class="x">✕</span><span data-l="ru">Миф № 5</span><span data-l="en">Myth № 5</span></div>
+      <div class="myth-old"><span data-l="ru">«Нужна звёздная команда и бюджет»</span><span data-l="en">“You need an all-star team and a budget”</span></div>
+      <div class="truth-label"><span class="c">✓</span><span data-l="ru">Правда</span><span data-l="en">Truth</span></div>
+      <div class="myth-new"><span data-l="ru">Сильную команду собирают <span class="accent-text">рядом и почти без денег</span>.</span><span data-l="en">A strong team is built <span class="accent-text">right next to you, on almost no money</span>.</span></div>
+      <div class="note"><span data-l="ru">Мы собрали 10 человек из 5 вузов почти на ноль. Сейчас расскажу, где их брал.</span><span data-l="en">We pulled together 10 people from 5 universities on near-zero. I'll tell you where I found them.</span></div>
+    </div>
+  </section>
+
+  <section class="slide accent" data-t="6 стартапов · 0 единорогов">
+    <div class="wrap">
+      <div class="eyebrow"><span data-l="ru">Откуда я это всё взял</span><span data-l="en">Where all this comes from</span></div>
+      <h1><span data-l="ru">6 стартапов.<br>0 единорогов.</span><span data-l="en">6 startups.<br>0 unicorns.</span></h1>
+      <p class="lead"><span data-l="ru">Ни один не улетел в космос. Зато каждый научил тому, что выше. Дорого и на своей шкуре.</span><span data-l="en">None of them went to the moon. But each taught what's above. The expensive way, firsthand.</span></p>
+    </div>
+  </section>
+
+  <section class="slide dark" data-t="Петля">
+    <div class="wrap">
+      <div class="eyebrow"><span data-l="ru">Весь метод на одном слайде</span><span data-l="en">The whole method on one slide</span></div>
+      <h2><span data-l="ru">Спроси → Собери →<br>Запусти → Измерь →<br>Повтори.</span><span data-l="en">Ask → Build →<br>Ship → Measure →<br>Repeat.</span></h2>
+      <p class="lead"><span data-l="ru">Кто крутит эту петлю быстрее — тот и выиграл. Всё, что мешает её крутить, — враг.</span><span data-l="en">Whoever spins this loop faster wins. Anything that slows the loop is the enemy.</span></p>
+    </div>
+  </section>
+
+  <section class="slide light" data-t="Находчивость">
+    <div class="wrap">
+      <div class="eyebrow"><span data-l="ru">Главное качество фаундера</span><span data-l="en">A founder's one essential trait</span></div>
+      <h2><span data-l="ru">Не гениальность.<br>Находчивость.</span><span data-l="en">Not genius.<br>Resourcefulness.</span></h2>
+      <p class="lead"><span data-l="ru">Способность найти выход там, где его нет. Ни красный диплом, ни высокий IQ её не заменят — проверено.</span><span data-l="en">The knack for finding a way out where there is none. No honors degree or high IQ replaces it — tested.</span></p>
+    </div>
+  </section>
+
+  <section class="slide light" data-t="Плейбук">
+    <div class="wrap">
+      <div class="eyebrow"><span data-l="ru">Если совсем коротко</span><span data-l="en">The whole thing, in short</span></div>
+      <ul class="clean">
+        <li><span class="dot">1</span><span data-l="ru">Сделай то, что людям нужно</span><span data-l="en">Make something people want</span></li>
+        <li><span class="dot">2</span><span data-l="ru">Говори с пользователями, а не с зеркалом</span><span data-l="en">Talk to users, not to the mirror</span></li>
+        <li><span class="dot">3</span><span data-l="ru">Запускай сырое, первых клиентов носи на руках</span><span data-l="en">Ship rough, hand-carry your first customers</span></li>
+        <li><span class="dot">4</span><span data-l="ru">Бери деньги с клиентов раньше, чем с инвесторов</span><span data-l="en">Take money from customers before investors</span></li>
+        <li><span class="dot">5</span><span data-l="ru">Считай деньги, береги команду</span><span data-l="en">Count your cash, protect your team</span></li>
+        <li><span class="dot">6</span><span data-l="ru">Крути петлю быстрее всех</span><span data-l="en">Spin the loop faster than anyone</span></li>
+      </ul>
+    </div>
+  </section>
+
+  <section class="slide dark" data-t="Финал">
+    <div class="wrap">
+      <h1><span data-l="ru">Лучшее место<br>начать — <span class="accent-text">здесь</span>.</span><span data-l="en">The best place<br>to start is <span class="accent-text">here</span>.</span></h1>
+      <p class="lead"><span data-l="ru">Команда сидит рядом. Инструменты — у тебя в руках. Осталось начать.</span><span data-l="en">Your team sits right beside you. The tools are in your hands. All that's left is to start.</span></p>
+      <div class="meta"><span data-l="ru">Спасибо! · Никита Арутюнов · Школа 21</span><span data-l="en">Thank you! · Nikita Arutyunov · 21 School</span></div>
+      <div class="meta"><span data-l="ru">Вся презентация — </span><span data-l="en">Full deck — </span><a class="url" href="https://peerx.org/keynote/">peerx.org/keynote</a></div>
+    </div>
+  </section>
+
+  <section class="slide light" data-t="Приложение: проекты">
+    <div class="wrap">
+      <div class="eyebrow"><span data-l="ru">Если спросят, что строил</span><span data-l="en">If they ask what I've built</span></div>
+      <div class="rows">
+        <div class="row"><b>Rocket Foods</b><span class="yr">2018</span><span class="em"><span data-l="ru">— доставка продуктов из магазинов · CTO</span><span data-l="en">— grocery delivery from stores · CTO</span></span></div>
+        <div class="row"><b>Pushka Delivery</b><span class="yr">2020</span><span class="em"><span data-l="ru">— доставка со склада за 15 мин · CTO</span><span data-l="en">— 15-min delivery from a warehouse · CTO</span></span></div>
+        <div class="row"><b>FREEZONE</b><span class="yr">2022</span><span class="em"><span data-l="ru">— B2B параллельный импорт по всему миру · CTO</span><span data-l="en">— B2B parallel-import marketplace, worldwide · CTO</span></span></div>
+        <div class="row"><b>Zultee</b><span class="yr">2021</span><span class="em"><span data-l="ru">— wishlist-соцсеть · CTO</span><span data-l="en">— wishlist social network · CTO</span></span></div>
+        <div class="row"><b>Dazzlink</b><span class="yr">2022</span><span class="em"><span data-l="ru">— серьёзные отношения, Match × TripAdvisor · Head of Software</span><span data-l="en">— serious dating, Match × TripAdvisor · Head of Software</span></span></div>
+        <div class="row"><b>TheShelter</b><span class="yr">2025</span><span class="em"><span data-l="ru">— трекинг стихийных бедствий в реальном времени · CTO</span><span data-l="en">— real-time natural-disaster tracking · CTO</span></span></div>
+        <div class="row"><b><span data-l="ru">Под NDA</span><span data-l="en">Under NDA</span></b><span class="yr">·</span><span class="em"><span data-l="ru">— эдвайзинг и участие «на проценте»</span><span data-l="en">— advisory and equity / revenue-share roles</span></span></div>
+      </div>
+    </div>
+  </section>
+
+  <div id="prevZone" class="nav-zone"></div>
+  <div id="nextZone" class="nav-zone"></div>
+  <div id="progress"></div>
+  <div id="counter">01 / 22</div>
+  <div id="hint"><span data-l="ru">← → листать · F полный экран · O обзор</span><span data-l="en">← → navigate · F fullscreen · O overview</span></div>
+
+</div>
+
+<footer class="site-footer">
+  <div class="links">
+    <a href="/"><span data-l="ru">О PeerX</span><span data-l="en">About PeerX</span></a>
+    <a href="/privacy/"><span data-l="ru">Конфиденциальность</span><span data-l="en">Privacy</span></a>
+    <a href="/support/"><span data-l="ru">Поддержка</span><span data-l="en">Support</span></a>
+    <a href="/clip/">App Clip</a>
+    <a href="https://github.com/PeerXOrg" target="_blank" rel="noopener"><span data-l="ru">Исходный код</span><span data-l="en">Source</span></a>
+  </div>
+  <div class="small">
+    <span data-l="ru">© 2026 PeerX · Сделано для пиров · Не аффилирован со Школой 21</span>
+    <span data-l="en">© 2026 PeerX · Built for peers · Not affiliated with 21 School</span>
+  </div>
+</footer>
+
+<div id="overview"></div>
+
+<script>
+(function(){
+  var slides = Array.prototype.slice.call(document.querySelectorAll('.slide'));
+  var total = slides.length;
+  var i = 0;
+  var counter = document.getElementById('counter');
+  var progress = document.getElementById('progress');
+  var hint = document.getElementById('hint');
+  var overview = document.getElementById('overview');
+
+  var pills = document.querySelectorAll('[data-set-lang]');
+  function applyLang(lang){
+    if(lang !== 'en' && lang !== 'ru') lang = 'en';
+    document.documentElement.lang = lang;
+    document.title = lang === 'ru' ? 'Как собрать стартап — PeerX' : 'How to build a startup — PeerX';
+    pills.forEach(function(p){ p.setAttribute('aria-pressed', p.dataset.setLang === lang ? 'true' : 'false'); });
+    try{ localStorage.setItem('peerx-lang', lang); }catch(_){}
+  }
+  applyLang(document.documentElement.lang);
+  pills.forEach(function(p){ p.addEventListener('click', function(){ applyLang(p.dataset.setLang); }); });
+
+  function pad(n){ return (n < 10 ? '0' : '') + n; }
+  function show(n){
+    i = Math.max(0, Math.min(total - 1, n));
+    slides.forEach(function(s, idx){ s.classList.toggle('active', idx === i); });
+    counter.textContent = pad(i + 1) + ' / ' + pad(total);
+    progress.style.width = ((i) / (total - 1) * 100) + '%';
+    if(location.hash !== '#' + (i + 1)) history.replaceState(null, '', '#' + (i + 1));
+    var cur = overview.querySelector('.ov.cur'); if(cur) cur.classList.remove('cur');
+    var now = overview.children[i]; if(now) now.classList.add('cur');
+  }
+  function next(){ show(i + 1); }
+  function prev(){ show(i - 1); }
+
+  setTimeout(function(){ hint.style.opacity = '0'; }, 4500);
+
+  document.addEventListener('keydown', function(e){
+    if(overview.classList.contains('show')){
+      if(e.key === 'Escape' || e.key === 'o' || e.key === 'O'){ overview.classList.remove('show'); e.preventDefault(); }
+      return;
+    }
+    switch(e.key){
+      case 'ArrowRight': case ' ': case 'ArrowDown': case 'PageDown': next(); e.preventDefault(); break;
+      case 'ArrowLeft': case 'ArrowUp': case 'PageUp': prev(); e.preventDefault(); break;
+      case 'Home': show(0); e.preventDefault(); break;
+      case 'End': show(total - 1); e.preventDefault(); break;
+      case 'f': case 'F':
+        if(!document.fullscreenElement){ document.documentElement.requestFullscreen && document.documentElement.requestFullscreen(); }
+        else { document.exitFullscreen && document.exitFullscreen(); }
+        break;
+      case 'o': case 'O': overview.classList.toggle('show'); break;
+    }
+  });
+
+  document.getElementById('nextZone').addEventListener('click', next);
+  document.getElementById('prevZone').addEventListener('click', prev);
+
+  slides.forEach(function(s, idx){
+    var t = s.classList.contains('dark') ? 't-dark' : s.classList.contains('accent') ? 't-accent' : 't-light';
+    var cell = document.createElement('div');
+    cell.className = 'ov ' + t;
+    cell.innerHTML = '<span class="ovn">' + pad(idx + 1) + '</span><span class="ovt">' + (s.getAttribute('data-t') || '') + '</span>';
+    cell.addEventListener('click', function(){ overview.classList.remove('show'); show(idx); });
+    overview.appendChild(cell);
+  });
+
+  var start = parseInt((location.hash || '').replace('#', ''), 10);
+  show(isNaN(start) ? 0 : start - 1);
+})();
+</script>
+</body>
+</html>
